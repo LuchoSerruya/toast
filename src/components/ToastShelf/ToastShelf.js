@@ -1,14 +1,24 @@
 import React from "react";
 
 import Toast from "../Toast";
+import { useToast } from "../ToastProvider";
 import styles from "./ToastShelf.module.css";
 
-function ToastShelf({ toasts, onDismiss }) {
+function ToastShelf() {
+  const { toasts, dismissToast } = useToast();
+
+  const handleDismiss = React.useCallback(
+    (id) => {
+      dismissToast(id);
+    },
+    [dismissToast]
+  );
+
   return (
     <ol className={styles.wrapper}>
       {toasts.map(({ id, message, variant }) => (
         <li key={id} className={styles.toastWrapper}>
-          <Toast variant={variant} onDismiss={() => onDismiss(id)}>
+          <Toast variant={variant} onDismiss={() => handleDismiss(id)}>
             {message}
           </Toast>
         </li>
