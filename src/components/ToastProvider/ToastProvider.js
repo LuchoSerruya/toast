@@ -19,7 +19,11 @@ function ToastProvider({ children }) {
 
   const dismissToast = useCallback(
     (id) => {
-      const newToasts = toasts.filter((t) => t.id !== id);
+      if (!Array.isArray(id)) {
+        id = [id];
+      }
+
+      const newToasts = toasts.filter((t) => !id.includes(t.id));
 
       setToasts(newToasts);
     },

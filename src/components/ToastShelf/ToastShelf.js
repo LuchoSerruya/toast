@@ -14,6 +14,20 @@ function ToastShelf() {
     [dismissToast]
   );
 
+  React.useEffect(() => {
+    const handleEscape = (e) => {
+      if (e.key === "Escape") {
+        dismissToast(toasts.map((t) => t.id));
+      }
+    };
+
+    window.addEventListener("keydown", handleEscape);
+
+    return () => {
+      window.removeEventListener("keydown", handleEscape);
+    };
+  }, [dismissToast, toasts]);
+
   return (
     <ol className={styles.wrapper}>
       {toasts.map(({ id, message, variant }) => (
